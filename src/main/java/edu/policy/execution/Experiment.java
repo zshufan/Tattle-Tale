@@ -54,7 +54,6 @@ public class Experiment {
 
         for (TestCase testCase: testCases) {
 
-
             Session session = Utils.createSessionFromTestCase(testCase);
 
             // load dependencies
@@ -63,27 +62,12 @@ public class Experiment {
             DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SSS");
             formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-            Set<Cell> hideCells = new HashSet<>();
+            // run algo in wrapper
+            TattleTaleWrapper wrapper = new TattleTaleWrapper(session);
 
-            GreedyAlgorithm algo = null;
-
-            DBSize = session.getLimit();
-
-            // run algo
             long startTime = new Date().getTime();
 
-
-            if (session.getAlgo().equals("full-den")) {
-                algo = new GreedyPerfectSecrecy(session);
-                algo.setUsingAlgorithm("Perfect Deniability");
-                hideCells.addAll(((GreedyPerfectSecrecy) algo).greedyHolisticPerfectDen());
-            }
-            else if (session.getAlgo().equals("k-den")) {
-                algo = new GreedyKSecrecy(session);
-                algo.setUsingAlgorithm("K-value Deniability");
-                hideCells.addAll(((GreedyKSecrecy) algo).greedyHolisticKDen());
-            }
-
+            wrapper.run();
 
             long endTime = new Date().getTime();
 
@@ -91,11 +75,10 @@ public class Experiment {
 
             logger.info(String.format("Finished executing the algorithm for the current testcase; use time: %d ms.", timeElapsed));
 
-            assert algo != null;
-
-            exp_report = new ExpOut(session, algo.getTotalCuesetSize(), hideCells.size(), hideCells,
-                    formatter.format(timeElapsed), algo.getHiddenCellsFanOut(), algo.getCueSetsFanOut(), outputFileName,
-                    session.getTestOblCueset());
+            // exporting report
+            exp_report = new ExpOut(session, wrapper.getTotalCuesetSize(), wrapper.getHideCells().size(), wrapper.getHideCells(),
+                    formatter.format(timeElapsed), wrapper.getHiddenCellsFanOut(), wrapper.getCueSetsFanOut(), outputFileName,
+                    session.getTestOblCueset(), session.getPagination());
 
             try {
 
@@ -107,6 +90,7 @@ public class Experiment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
     }
 

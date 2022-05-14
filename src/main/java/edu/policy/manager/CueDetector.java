@@ -25,6 +25,12 @@ public class CueDetector {
 
     Session session;
 
+    boolean isPagination;
+
+    int offset;
+
+    int rowCount;
+
     private static final Logger logger = LogManager.getLogger(CueDetector.class);
 
     final String temporaryRelationName = "temp";
@@ -33,6 +39,10 @@ public class CueDetector {
     final String multiQueryTemplate = "SELECT T2.tid AS senCellID, T1.tid AS tid, ${depAttributes}" +
             "FROM ${databaseName}.${relationName} AS T1 JOIN ${databaseName}.${temporaryRelationName} AS T2 ON (T1.tid <> T2.tid) " +
             "WHERE ${conds};";
+
+    final String multiQueryTemplateWithPagination = "SELECT T2.tid AS senCellID, T1.tid AS tid, ${depAttributes}" +
+            "FROM ${databaseName}.${relationName} AS T1 JOIN ${databaseName}.${temporaryRelationName} AS T2 ON (T1.tid <> T2.tid) " +
+            "WHERE ${conds} LIMIT ${offset}, ${rowCount};";
 
     final String dropQueryTemplate = "DROP TABLE IF EXISTS `${databaseName}`.`${temporaryRelationName}`;";
 
@@ -48,6 +58,13 @@ public class CueDetector {
 
     public CueDetector(Session session) {
         this.session = session;
+        this.isPagination = session.getPagination();
+
+        if (isPagination) {
+            this.offset = session.getTupleStart();
+            this.rowCount = session.getTupleEnd() - session.getTupleStart();
+        }
+
     }
 
     public List<CueSet> detect(List<DataDependency> dependencies, List<Cell> senCells) {
@@ -353,9 +370,18 @@ public class CueDetector {
         valuesMap.put("temporaryRelationName", temporaryRelationName);
         valuesMap.put("depAttributes", depAttributes.toString());
         valuesMap.put("conds", conds.toString());
+        if (isPagination) {
+            valuesMap.put("offset", String.valueOf(offset));
+            valuesMap.put("rowCount", String.valueOf(rowCount));
+        }
 
         StringSubstitutor sub = new StringSubstitutor(valuesMap);
-        String query = sub.replace(multiQueryTemplate);
+
+        String query;
+        if (isPagination)
+            query = sub.replace(multiQueryTemplateWithPagination);
+        else
+            query = sub.replace(multiQueryTemplate);
 
         return query;
     }

@@ -125,7 +125,12 @@ public class Utils {
 
     public static Session createSessionFromTestCase(TestCase testCase) {
 
-        User user = new User(UUID.fromString(testCase.getUserID()), testCase.getUserName());
+        int tuple_start = testCase.getTuple_start();
+        int tuple_end = testCase.getTuple_end();
+
+        boolean isPagination = testCase.isPagination();
+
+        User user = new User(UUID.fromString(testCase.getUserID()), testCase.getUserName(), tuple_start, tuple_end, isPagination);
 
         logger.info("The following user is using this program: " + user.toString());
 
@@ -179,9 +184,10 @@ public class Utils {
         Boolean randomCuesetChoosing = testCase.getRandomCuesetChoosing();
         Boolean randomHiddenCellChoosing = testCase.getRandomHiddenCellChoosing();
 
-        Session session = new Session(expID, user, database, relation, metaData,
+        Session session = new Session(expID, user, database, relation, tuple_start, tuple_end, metaData,
                 limit, isAscend, algo, kVal, DCDir, senCells, seed, randomCuesetChoosing, randomHiddenCellChoosing,
-                useMVC, testCase.isTestFanOut(), testOblCueset, testCase.getPolicySenLevel());
+                useMVC, testCase.isTestFanOut(), testOblCueset, testCase.getPolicySenLevel(), isPagination,
+                testCase.getBinning_size(), testCase.getMerging_size());
 
         logger.debug(String.format("Start the new session: %s", session));
 

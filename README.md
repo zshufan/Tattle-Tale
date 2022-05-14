@@ -4,7 +4,7 @@ Main repository for "Don’t Be a Tattle-Tale: Preventing Leakages through Data 
 ## Repository Structure
 
     ├── Tattle-Tale/
-    │   ├── src/main/                        *Main directary
+    │   ├── src/main/                        *Main directory
     |       ├── java/                        *Java source code
     |       └── resources/                   *Database configuration directory
     │   ├── plot/eva/                        *Directory to store output report
@@ -41,13 +41,13 @@ After execution, the output experiment reports can be found under the `plot/eva/
 
 
 
-**Special Note: This project uses log4j version 2.17. Please check the latest update on log4j official website before running to avoid potential vulnerabilities.**
+**Special Note: This project uses log4j version 2.17. Please check the latest update on [log4j official website](https://logging.apache.org/log4j/2.x/security.html#CVE-2021-44832) before running to avoid potential vulnerabilities.**
 
 ## Correspondence
 
-[Primal Pappachan](primal@uci.edu) <br>[Shufan Zhang](mailto:shufan.zhang@uwaterloo.ca) <br>[Xi He](mailto:xihe@uwaterloo.ca )  <br>[Sharad Mehrotra](mailto:sharad@ics.uci.edu ) <br>
+[Primal Pappachan](mailto:primal@uci.edu) <br>[Shufan Zhang](mailto:shufan.zhang@uwaterloo.ca) <br>[Xi He](mailto:xihe@uwaterloo.ca)  <br>[Sharad Mehrotra](mailto:sharad@ics.uci.edu) <br>
 
 ## License
 
-[BSD-3-Clause License][https://choosealicense.com/licenses/bsd-3-clause/]
+[BSD-3-Clause License](https://choosealicense.com/licenses/bsd-3-clause/)
 

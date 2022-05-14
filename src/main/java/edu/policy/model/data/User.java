@@ -15,6 +15,12 @@ public class User {
 
     private String uName;
 
+    private boolean isPagination;
+
+    private int tuple_start;
+
+    private int tuple_end;
+
     private static final Logger logger = LogManager.getLogger(User.class);
 
     private static Connection connection = MySQLConnectionManagerDBCP.getInstance().getConnection();
@@ -31,6 +37,14 @@ public class User {
         this.uName = uName;
     }
 
+    public User(UUID userId, String uName, int tuple_start, int tuple_end, boolean isPagination) {
+        this.userId = userId;
+        this.uName = uName;
+        this.tuple_start = tuple_start;
+        this.tuple_end = tuple_end;
+        this.isPagination = isPagination;
+    }
+
     public Hashtable<String, Double> retrieveNumericalMin (List<String> numericalSchema, String databaseName, String relationName) {
 
         Hashtable<String, Double> numericalAttrDomMin = new Hashtable<>();
@@ -40,8 +54,14 @@ public class User {
         try {
 
             for (String attr: numericalSchema) {
-                queryStm = connection.prepareStatement(String.format("SELECT MIN( %s ) AS MinDom FROM %s.%s",
-                        escapeReserved(attr), preventSQLInjection(databaseName), preventSQLInjection(relationName)));
+
+                if (isPagination)
+                    queryStm = connection.prepareStatement(String.format("SELECT MIN( %s ) AS MinDom FROM ( SELECT %s FROM %s.%s LIMIT %d, %d ) AS T ",
+                            escapeReserved(attr), escapeReserved(attr), preventSQLInjection(databaseName), preventSQLInjection(relationName),
+                            tuple_start, tuple_end-tuple_start));
+                else
+                    queryStm = connection.prepareStatement(String.format("SELECT MIN( %s ) AS MinDom FROM %s.%s",
+                            escapeReserved(attr), preventSQLInjection(databaseName), preventSQLInjection(relationName)));
 
                 ResultSet rs = null;
                 try {
@@ -73,8 +93,14 @@ public class User {
         try {
 
             for (String attr: numericalSchema) {
-                queryStm = connection.prepareStatement(String.format("SELECT MAX( %s ) AS MaxDom FROM %s.%s",
-                        escapeReserved(attr), preventSQLInjection(databaseName), preventSQLInjection(relationName)));
+
+                if (isPagination)
+                    queryStm = connection.prepareStatement(String.format("SELECT MAX( %s ) AS MaxDom FROM ( SELECT %s FROM %s.%s LIMIT %d, %d ) AS T ",
+                            escapeReserved(attr), escapeReserved(attr), preventSQLInjection(databaseName), preventSQLInjection(relationName),
+                            tuple_start, tuple_end-tuple_start));
+                else
+                    queryStm = connection.prepareStatement(String.format("SELECT MAX( %s ) AS MaxDom FROM %s.%s",
+                            escapeReserved(attr), preventSQLInjection(databaseName), preventSQLInjection(relationName)));
 
                 ResultSet rs = null;
                 try {
@@ -109,8 +135,14 @@ public class User {
         try {
 
             for (String attr: categoricalSchema) {
-                queryStm = connection.prepareStatement(String.format("SELECT count(DISTINCT %s ) AS DomSize FROM %s.%s",
-                        escapeReserved(attr), preventSQLInjection(databaseName), preventSQLInjection(relationName)));
+
+                if (isPagination)
+                    queryStm = connection.prepareStatement(String.format("SELECT Count(T.%s) as DomSize FROM (SELECT DISTINCT %s FROM %s.%s LIMIT %d, %d) T",
+                            escapeReserved(attr), escapeReserved(attr), preventSQLInjection(databaseName), preventSQLInjection(relationName),
+                            tuple_start, tuple_end-tuple_start));
+                else
+                    queryStm = connection.prepareStatement(String.format("SELECT count(DISTINCT %s ) AS DomSize FROM %s.%s",
+                            escapeReserved(attr), preventSQLInjection(databaseName), preventSQLInjection(relationName)));
 
                 ResultSet rs = null;
                 try {
@@ -182,8 +214,13 @@ public class User {
         PreparedStatement queryStm = null;
         try {
 
-            queryStm = connection.prepareStatement(String.format("SELECT * FROM %s.%s",
-                    preventSQLInjection(databaseName), preventSQLInjection(relationName)));
+            if (isPagination)
+                queryStm = connection.prepareStatement(String.format("SELECT * FROM %s.%s LIMIT %d, %d",
+                        preventSQLInjection(databaseName), preventSQLInjection(relationName), tuple_start,
+                        tuple_end-tuple_start));
+            else
+                queryStm = connection.prepareStatement(String.format("SELECT * FROM %s.%s",
+                        preventSQLInjection(databaseName), preventSQLInjection(relationName)));
 
             ResultSet rs = null;
 
@@ -214,8 +251,13 @@ public class User {
         PreparedStatement queryStm = null;
         try {
 
-            queryStm = connection.prepareStatement(String.format("SELECT * FROM %s.%s",
-                    preventSQLInjection(databaseName), preventSQLInjection(relationName)));
+            if (isPagination)
+                queryStm = connection.prepareStatement(String.format("SELECT * FROM %s.%s LIMIT %d, %d",
+                        preventSQLInjection(databaseName), preventSQLInjection(relationName), tuple_start,
+                        tuple_end-tuple_start));
+            else
+                queryStm = connection.prepareStatement(String.format("SELECT * FROM %s.%s",
+                        preventSQLInjection(databaseName), preventSQLInjection(relationName)));
 
             ResultSet rs = null;
 

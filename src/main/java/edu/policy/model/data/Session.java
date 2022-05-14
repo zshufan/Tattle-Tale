@@ -6,9 +6,7 @@ import edu.policy.model.constraint.Cell;
 import edu.policy.model.constraint.DataDependency;
 import edu.policy.model.constraint.Provenance;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
 public class Session {
 
@@ -30,26 +28,59 @@ public class Session {
 
     Boolean testOblCueset;
 
+    Boolean isPagination;
+
+    int binning_size;
+
+    int merging_size;
+
     String policySenLevel;
 
     List<DataDependency> dcs = new ArrayList<>();
 
     List<Provenance> pbds = new ArrayList<>();
 
-    public Session(int expID, User user, String databaseName, String relationName, MetaData metaData,
-                   int limit, boolean isAscend, String algo, float k_value, String DCDir, List<Cell> policies,
-                   long seed, Boolean randomCuesetChoosing, Boolean randomHiddenCellChoosing, Boolean useMVC,
-                   Boolean testFanOut, Boolean testOblCueset, String policySenLevel) {
+    Set<Cell> hideCells = new HashSet<>();
+
+    public Session(int expID, User user, String databaseName, String relationName, int tuple_start, int tuple_end,
+                   MetaData metaData, int limit, boolean isAscend, String algo, float k_value, String DCDir,
+                   List<Cell> policies, long seed, Boolean randomCuesetChoosing, Boolean randomHiddenCellChoosing,
+                   Boolean useMVC, Boolean testFanOut, Boolean testOblCueset, String policySenLevel, boolean isPagination,
+                   int binning_size, int merging_size) {
         this.expID = expID;
         this.user = user;
         this.metaData = metaData;
-        this.databaseSetting = new DatabaseSetting(databaseName, relationName, metaData, limit, isAscend);
+        this.databaseSetting = new DatabaseSetting(databaseName, relationName, metaData, tuple_start, tuple_end, limit, isAscend);
         this.expSetting = new ExpSetting(algo, k_value, policies, DCDir);
         this.randomFlag = new RandomFlag(seed, randomCuesetChoosing, randomHiddenCellChoosing);
         this.useMVC = useMVC;
         this.testFanOut = testFanOut;
         this.testOblCueset = testOblCueset;
         this.policySenLevel = policySenLevel;
+        this.isPagination = isPagination;
+        this.binning_size = binning_size;
+        this.merging_size = merging_size;
+    }
+
+    public Session(Session session, int tuple_start, int tuple_end, List<Cell> policies) {
+        this.expID = session.getExpID();
+        this.user = session.getUser();
+        this.metaData = session.getMetaData();
+        this.databaseSetting = session.getDatabaseSetting();
+        this.expSetting = session.getExpSetting();
+        this.randomFlag = session.getRandomFlag();
+        this.useMVC = session.getUseMVC();
+        this.testFanOut = session.getTestFanOut();
+        this.testOblCueset = session.getTestOblCueset();
+        this.policySenLevel = session.getPolicySenLevel();
+        this.isPagination = session.getPagination();
+        this.binning_size = session.getBinning_size();
+        this.merging_size = session.getMerging_size();
+        this.dcs = session.getDcs();
+        this.databaseSetting = new DatabaseSetting(session.getDatabaseName(), session.getRelationName(), metaData, tuple_start,
+                tuple_end, session.getLimit(), session.getAscend());
+        this.expSetting = new ExpSetting(session.getAlgo(), session.getK_value(), policies, session.getDCDir());
+        this.randomFlag = new RandomFlag(session.getRandomSeed(), session.getRandomCuesetChoosing(), session.getRandomHiddenCellChoosing());
     }
 
     public int getExpID() {
@@ -70,6 +101,38 @@ public class Session {
 
     public String getRelationName() {
         return databaseSetting.getRelationName();
+    }
+
+    public Boolean getPagination() {
+        return isPagination;
+    }
+
+    public int getBinning_size() {
+        return binning_size;
+    }
+
+    public int getMerging_size() {
+        return merging_size;
+    }
+
+    public DatabaseSetting getDatabaseSetting() {
+        return databaseSetting;
+    }
+
+    public RandomFlag getRandomFlag() {
+        return randomFlag;
+    }
+
+    public ExpSetting getExpSetting() {
+        return expSetting;
+    }
+
+    public int getTupleStart() {
+        return databaseSetting.getTuple_start();
+    }
+
+    public int getTupleEnd() {
+        return databaseSetting.getTuple_end();
     }
 
     public List<String> getSchema() {
@@ -132,6 +195,10 @@ public class Session {
         return testFanOut;
     }
 
+    public MetaData getMetaData() {
+        return metaData;
+    }
+
     public Boolean getTestOblCueset() {
         return testOblCueset;
     }
@@ -164,6 +231,26 @@ public class Session {
         return pbds;
     }
 
+    public void setHideCells(Set<Cell> hideCells) {
+        this.hideCells = hideCells;
+    }
+
+    public Set<Cell> getHideCells() {
+        return hideCells;
+    }
+
+    public void setTuple_start(int tuple_start) {
+        this.databaseSetting.setTuple_start(tuple_start);
+    }
+
+    public void setTuple_end(int tuple_end) {
+        this.databaseSetting.setTuple_end(tuple_end);
+    }
+
+    public void setPolicies(List<Cell> policies) {
+        this.expSetting.setPolicies(policies);
+    }
+
     @Override
     public String toString() {
         return "Session{" +
@@ -179,6 +266,10 @@ class DatabaseSetting {
     String databaseName;
 
     String relationName;
+
+    int tuple_start;
+
+    int tuple_end;
 
     List<String> schema;
 
@@ -196,9 +287,12 @@ class DatabaseSetting {
 
     Boolean isAscend;
 
-    public DatabaseSetting(String databaseName, String relationName, MetaData metaData, int limit, boolean isAscend) {
+    public DatabaseSetting(String databaseName, String relationName, MetaData metaData, int tuple_start, int tuple_end,
+                           int limit, boolean isAscend) {
         this.databaseName = databaseName;
         this.relationName = relationName;
+        this.tuple_start = tuple_start;
+        this.tuple_end = tuple_end;
         this.schema = metaData.getSchema();
         this.schemaType = metaData.getSchemaType();
         this.attrDomSizeDict = metaData.getCategoricalAttrDomSizeDict();
@@ -215,6 +309,14 @@ class DatabaseSetting {
 
     public String getRelationName() {
         return relationName;
+    }
+
+    public int getTuple_start() {
+        return tuple_start;
+    }
+
+    public int getTuple_end() {
+        return tuple_end;
     }
 
     public List<String> getSchema() {
@@ -239,6 +341,14 @@ class DatabaseSetting {
 
     public Boolean getAscend() {
         return isAscend;
+    }
+
+    public void setTuple_start(int tuple_start) {
+        this.tuple_start = tuple_start;
+    }
+
+    public void setTuple_end(int tuple_end) {
+        this.tuple_end = tuple_end;
     }
 
     @Override
@@ -284,6 +394,10 @@ class ExpSetting {
 
     public String getDCDir() {
         return DCDir;
+    }
+
+    public void setPolicies(List<Cell> policies) {
+        this.policies = policies;
     }
 
     @Override

@@ -20,6 +20,10 @@ public class TestCase {
 
     String relationName;
 
+    int tuple_start;
+
+    int tuple_end;
+
     List<Cell> policies;
 
     String policySenLevel;
@@ -45,15 +49,24 @@ public class TestCase {
 
     boolean testOblCueset;
 
-    public TestCase(int expID, String userID, String userName, String databaseName, String relationName, List<Cell> policies,
-                    String DCFileName, float k_value, long seed, Boolean randomCuesetChoosing,
-                    Boolean randomHiddenCellChoosing, String purpose, int limit, boolean isAscend, String policySenLevel,
-                    String algo, String testname, boolean useMVC, boolean testFanOut, boolean testOblCueset) {
+    boolean isPagination;
+
+    int binning_size;
+
+    int merging_size;
+
+    public TestCase(int expID, String userID, String userName, String databaseName, String relationName,
+                    int tuple_start, int tuple_end, List<Cell> policies, String DCFileName, float k_value, long seed,
+                    Boolean randomCuesetChoosing, Boolean randomHiddenCellChoosing, String purpose, int limit,
+                    boolean isAscend, String policySenLevel, String algo, String testname, boolean useMVC,
+                    boolean testFanOut, boolean testOblCueset, boolean isPagination, int binning_size, int merging_size) {
         this.expID = expID;
         this.userID = userID;
         this.userName = userName;
         this.databaseName = databaseName;
         this.relationName = relationName;
+        this.tuple_start = tuple_start;
+        this.tuple_end = tuple_end;
         this.policies = policies;
         this.DCFileName = DCFileName;
         this.k_value = k_value;
@@ -67,6 +80,9 @@ public class TestCase {
         this.useMVC = useMVC;
         this.testFanOut = testFanOut;
         this.testOblCueset = testOblCueset;
+        this.isPagination = isPagination;
+        this.binning_size = binning_size;
+        this.merging_size = merging_size;
     }
 
     void associateCellTypeToPolicies(List<String> schema, List<String> schemaType) {
@@ -129,6 +145,14 @@ public class TestCase {
 
     public String getRelationName() {
         return relationName;
+    }
+
+    public int getTuple_end() {
+        return tuple_end;
+    }
+
+    public int getTuple_start() {
+        return tuple_start;
     }
 
     public String getDatabaseName() {
@@ -211,6 +235,18 @@ public class TestCase {
 
     public boolean isTestOblCueset() {
         return testOblCueset;
+    }
+
+    public boolean isPagination() {
+        return isPagination;
+    }
+
+    public int getBinning_size() {
+        return binning_size;
+    }
+
+    public int getMerging_size() {
+        return merging_size;
     }
 }
 

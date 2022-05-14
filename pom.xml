@@ -4,13 +4,31 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.tattle.tale</groupId>
+    <groupId>uwaterloo-dsg</groupId>
     <artifactId>Tattle-Tale</artifactId>
     <version>Release-verson-1</version>
 
+    <name>Don’t Be a Tattle-Tale</name>
+    <description>Preventing Leakages through Data Dependencies on Access Control Protected Data</description>
+    <url>https://github.com/zshufan/Tattle-Tale</url>
+
+    <licenses>
+        <license>
+            <name>BSD-3-Clause License</name>
+            <url>https://opensource.org/licenses/BSD-3-Clause</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Shufan Zhang</name>
+            <email>shufan.zhang@uwaterloo.ca</email>
+        </developer>
+    </developers>
+
+
     <build>
         <plugins>
-
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>

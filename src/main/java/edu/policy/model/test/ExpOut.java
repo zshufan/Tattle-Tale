@@ -41,6 +41,8 @@ public class ExpOut {
 
     Boolean testOblCueset;
 
+    Boolean isPagination;
+
     int DBSize;
 
     int attrNum;
@@ -60,7 +62,8 @@ public class ExpOut {
     private static final Logger logger = LogManager.getLogger(ExpOut.class);
 
     public ExpOut(Session session, int numCuesets, int numHiddenCells, Set<Cell> hiddenCells, String executionTime,
-                  List<Integer> hiddenCellsFanOut, List<Integer> cueSetsFanOut, String fileName, Boolean testOblCueset) {
+                  List<Integer> hiddenCellsFanOut, List<Integer> cueSetsFanOut, String fileName, Boolean testOblCueset,
+                  Boolean isPagination) {
 
         this.expID = session.getExpID();
         this.numSenCells = session.getPolicies().size();
@@ -85,6 +88,8 @@ public class ExpOut {
 
         this.testOblCueset = testOblCueset;
 
+        this.isPagination = isPagination;
+
         this.fileName = fileName;
     }
 
@@ -108,7 +113,7 @@ public class ExpOut {
                 out.write("expID; numSenCells; senCells; numDeps; numCuesets; k_value; numHiddenCells; " +
                         "hiddenCells; executionTime (HH:mm:ss.SSS); randomCuesetChoosing; randomHiddenCellChoosing;" +
                         "DBSize; attrNum; policySenLevel; useMVC; usingAlgorithm; hiddenCellsFanOut; cueSetsFanOut; " +
-                        "useOblCueset; no. of levels  \n");
+                        "useOblCueset; isPagination; no. of levels  \n");
                 printVarToExpOut(out);
             }
             else {
@@ -152,6 +157,7 @@ public class ExpOut {
         out.write(hiddenCellsFanOut.toString() + "; ");
         out.write(cueSetsFanOut.toString() + "; ");
         out.write(testOblCueset + "; ");
+        out.write(isPagination + "; ");
         out.write(Integer.toString(hiddenCellsFanOut.size()));
         out.write("\n");
     }
