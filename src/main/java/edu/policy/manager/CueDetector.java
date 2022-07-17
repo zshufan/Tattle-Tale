@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.apache.commons.text.StringSubstitutor;
 import org.apache.logging.log4j.Logger;
@@ -80,6 +81,9 @@ public class CueDetector {
         for (Cell senCell: senCells)
             senCellInstantiation(senCell);
 
+        // get sensitive attribute names
+        Set<String> senAttrNames = senCells.stream().map(Cell::getAttributeName).collect(Collectors.toSet());
+
         // get the sensitive tuples
         Table sensitiveTuples = getSensitiveTuples(senCells);
 
@@ -92,6 +96,10 @@ public class CueDetector {
         long startTime_cueDetector = new Date().getTime();
         // for each schema-level dependency
         for (DataDependency schemaDep: dependencies) {
+
+            // if the dependency does not contain sensitive attribute, continue
+            if (Utils.filterDep(senAttrNames, schemaDep.getAttributeNames()))
+                continue;
 
             // Modify the query template based on the dependencies
             String queryStatement = queryCompilation(schemaDep);
@@ -125,6 +133,9 @@ public class CueDetector {
         // instantiate the sensitive cell
         senCellInstantiation(senCell);
 
+        // get sensitive attribute names
+        String senAttrName = senCell.getAttributeName();
+
         // get the sensitive tuples
         Table sensitiveTuples = getSensitiveTuples(Collections.singletonList(senCell));
 
@@ -136,6 +147,10 @@ public class CueDetector {
 
         // for each schema-level dependency
         for (DataDependency schemaDep: dependencies) {
+
+            // if the dependency does not contain sensitive attribute, continue
+            if (Utils.filterDep(senAttrName, schemaDep.getAttributeNames()))
+                continue;
 
             // Modify the query template based on the dependencies
             String queryStatement = queryCompilation(schemaDep);

@@ -186,7 +186,7 @@ if __name__ == "__main__":
     # if set as True, monotonically selecting policies in different experiments
     is_monotonic = True
 
-    database_name = "s693zhan_hospitaldb"
+    database_name = "hospitaldb"
     relation_name = "hospital"
     tuple_start = 0
     tuple_end = 100000
@@ -206,6 +206,6 @@ if __name__ == "__main__":
 
     test_obl_cueset = False
 
-    test_name_base="server_test_hospital"
+    test_name_base="server_test_hospital_scalability"
 
     testcase_gen(curPolicyArray, policySenLevel, testcase_count, limit, runs, database_name, relation_name, test_name_base, is_monotonic, no_sen_policies, testfanout, test_obl_cueset, tuple_start, tuple_end, is_pagination, binning_tuples, merging_size, if_sampling_ratio)

@@ -150,7 +150,7 @@ def testcase_gen(curPolicyArray, policySenLevel, testcase_count, limit, runs, da
 
     # k-den with MVC
     if test_obl_cueset is False:
-        k_values = [min((0.1 + 4 * round(i/10, 1)), 1) for i in range(3)]
+        k_values = [0, 0.03]
         print(k_values)
 
         for t in range(0, len(k_values)):
@@ -186,7 +186,6 @@ def testcase_gen(curPolicyArray, policySenLevel, testcase_count, limit, runs, da
                     testcase['algo'] = "k-den"
 
                     testcase['k_value'] = k_values[t]
-                    print(testcase['k_value'])
 
                     testcase['limit'] = limit
                     testcase['isAscend'] = True
@@ -231,7 +230,7 @@ if __name__ == "__main__":
     is_monotonic = True
 
 
-    database_name = "s693zhan_hospitaldb"
+    database_name = "hospitaldb"
     relation_name = "hospital"
     tuple_start = 0
     tuple_end = 99998
@@ -251,7 +250,7 @@ if __name__ == "__main__":
 
     test_obl_cueset = True
 
-    test_name_base="server_test_hospital"
+    test_name_base="server_test_hospital_btm"
 
 
     testcase_gen(curPolicyArray, policySenLevel, testcase_count, limit, runs, database_name, relation_name, test_name_base, is_monotonic, step, start, testfanout, test_obl_cueset, tuple_start, tuple_end, is_pagination, binning_size, merging_size)

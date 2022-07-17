@@ -210,4 +210,40 @@ public class Utils {
     public static <T> boolean listEqualsIgnoreOrder(List<T> list1, List<T> list2) {
         return new HashSet<>(list1).equals(new HashSet<>(list2));
     }
+
+    /**
+     * If the dependency can be filtered, return true; otherwise return false.
+     * @param sensAttrs
+     * @param depAttrs
+     * @return
+     */
+    public static boolean filterDep(Set<String> sensAttrs, List<String> depAttrs) {
+        boolean state = true;
+        for (String attr: depAttrs) {
+            if (sensAttrs.contains(attr)) {
+                state = false;
+                break;
+            }
+        }
+
+        return state;
+    }
+
+    /**
+     * If the dependency can be filtered, return true; otherwise return false.
+     * @param sensAttr
+     * @param depAttrs
+     * @return
+     */
+    public static boolean filterDep(String sensAttr, List<String> depAttrs) {
+        boolean state = true;
+        for (String attr: depAttrs) {
+            if (sensAttr.equals(attr)) {
+                state = false;
+                break;
+            }
+        }
+
+        return state;
+    }
 }
