@@ -1,16 +1,20 @@
 [![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)](https://arxiv.org/abs/2207.08757)  [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![conference](https://img.shields.io/badge/VLDB--2022-Accepted-success)](https://vldb.org/2022/)
 
-# Tattle-Tale
+# Tattle-Tale 
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/284107/179824129-4b2a35d9-7dcc-4945-b1bf-5eed595ec23f.png" width=100 height=100>
+</p>
+
 Main repository for "[Don’t Be a Tattle-Tale: Preventing Leakages through Data Dependencies on Access Control Protected Data](https://arxiv.org/abs/2207.08757)" (VLDB 2022) [[bibtex](#citation)]
 
-
-![arch](https://user-images.githubusercontent.com/284107/179818558-ce0d4cca-6db3-48fa-9d45-207e872051e9.png)
 
 ## Brief Intro
 
 Tattle-tale project studies the problem of preventing inferences through data dependencies on sensitive data.
 This repository contains the implementation of algorithms for detection and prevention of such inferences along with scripts for preparing test cases and plotting the results.
 
+![arch](https://user-images.githubusercontent.com/284107/179818558-ce0d4cca-6db3-48fa-9d45-207e872051e9.png)
 
 ## Repository Structure
 
