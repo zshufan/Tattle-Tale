@@ -1,12 +1,20 @@
-# Tattle-Tale
-Main repository for "Don’t Be a Tattle-Tale: Preventing Leakages through Data Dependencies on Access Control Protected Data" (VLDB 2022)
+[![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)](https://arxiv.org/abs/2207.08757)  [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![conference](https://img.shields.io/badge/VLDB--2022-Accepted-success)](https://vldb.org/2022/)
+
+# Tattle-Tale 
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/284107/179824129-4b2a35d9-7dcc-4945-b1bf-5eed595ec23f.png" width=100 height=100>
+</p>
+
+Main repository for "[Don’t Be a Tattle-Tale: Preventing Leakages through Data Dependencies on Access Control Protected Data](https://arxiv.org/abs/2207.08757)" (VLDB 2022) [[bibtex](#citation)]
+
 
 ## Brief Intro
 
-Tattle-tale is the project of studying the problem of answering queries when (part of) the data may be sensitive and should not be leaked to the querier.
-We build efficient algorithms to resist leakage (based on our *full-deniability* security model) that suppress minimal number of non-sensitivie cells during query processing.
-This open-source repository contains the system/algorithms we develop for the Tattle-tale project, while it also consists of our code for preparing test cases and plotting our research findings.
+Tattle-tale project studies the problem of preventing inferences through data dependencies on sensitive data.
+This repository contains the implementation of algorithms for detection and prevention of such inferences along with scripts for preparing test cases and plotting the results.
 
+![arch](https://user-images.githubusercontent.com/284107/179818558-ce0d4cca-6db3-48fa-9d45-207e872051e9.png)
 
 ## Repository Structure
 
@@ -30,7 +38,7 @@ This open-source repository contains the system/algorithms we develop for the Ta
 
 #### Step 1: Configure Database
 
-1.  Create database in MySQL ([Export files](https://drive.google.com/drive/folders/1CiCXU08zWgzI2VUKp1vEcadBkTJA6Lbb?usp=sharing), enabling database index and hasing large domain can optimize performance)
+1.  Create database in MySQL ([Export files](https://drive.google.com/drive/folders/1CiCXU08zWgzI2VUKp1vEcadBkTJA6Lbb?usp=sharing), enabling database index and creating hash indexes can improve performance)
 2.  Update corresponding database info (*username, password, server and port number*) in the `mysql.properties` file under `resources/credentials/` directory.
 
 #### Step 2: Prepare Testcases
@@ -50,7 +58,7 @@ Our codebase is forward-compatible with test cases without btm mode.
 
 Under the working directory (`Tattle-Tale/`), use the following commands to install required dependencies and execute the program.
 
-**Experimental setting**: requiring at least 64 GB RAM [if not possible for limited computing environment, use *btm* mode (as in the scalability experiment) to reduce the momery requirement]
+**Experimental setting**: requiring at least 64 GB RAM [if not possible for limited computing environment, use *btm* mode (as in the scalability experiment) to reduce the memory requirement]
 
 > mvn clean install
 >
@@ -62,7 +70,7 @@ After execution, the output experiment reports can be found under the `plot/eva/
 
 **Special Note: This project uses log4j version 2.17. Please check the latest update on [log4j official website](https://logging.apache.org/log4j/2.x/security.html#CVE-2021-44832) before running to avoid potential vulnerabilities.**
 
-## How to Cite: 
+## Citation: 
 
 > ```
 > @inproceedings{Pappachan2022tattletale,
