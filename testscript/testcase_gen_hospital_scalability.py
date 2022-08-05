@@ -1,6 +1,7 @@
 import json
 import random
 import numpy as np
+import os
 
 high = ['HospitalName'] 
 med = ['State', 'CountyName', 'HospitalType', 'PhoneNumber', 'HospitalOwner']
@@ -10,6 +11,8 @@ low = ['MeasureCode', 'MeasureName']
 algo_list = ['full-den', 'k-den']
 
 DCFileName = "/testdata/hospital_constraints.txt" # path to constraints file
+
+os.makedirs('../testdata/testcases/')
 
 
 def testcase_gen(curPolicyArray, policySenLevel, testcase_count, limit, runs, database_name, relation_name, test_name, is_monotonic, no_sen_policies, testfanout, test_obl_cueset, tuple_start, tuple_end, is_pagination, binning_tuples, merging_size, if_sampling_ratio):

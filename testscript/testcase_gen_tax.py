@@ -1,6 +1,7 @@
 import json
 import random
 import numpy as np
+import os
 
 high = ['State', 'Rate', 'Salary'] 
 med = ['AreaCode', 'HasChild', 'SingleExemp', 'Zip']
@@ -10,6 +11,8 @@ low = ['MaritalStatus', 'ChildExemp', 'City']
 algo_list = ['full-den', 'k-den']
 
 DCFileName = "/testdata/taxdb_constraints.txt" # path to constraints file
+
+os.makedirs('../testdata/testcases/')
 
 
 def testcase_gen(curPolicyArray, policySenLevel, testcase_count, limit, runs, database_name, relation_name, test_name, is_monotonic, step, start, testfanout):
