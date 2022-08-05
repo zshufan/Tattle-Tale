@@ -77,16 +77,21 @@ After execution, the output experiment reports can be found under the `plot/eva/
 >   author={Pappachan, Primal and Zhang, Shufan and He, Xi and Mehrotra, Sharad},
 >   title={Don’t Be a Tattle-Tale: Preventing Leakages through Data Dependencies on Access Control Protected Data}, 
 >   journal={Proceedings of the VLDB Endowment},
+>   pages={2437--2449},
 >   volume={15},
 >   number={11},
 >   year={2022},
+>   doi={10.14778/3551793.3551805},
 >   publisher={VLDB Endowment}
 >}
 > ```
 
 ## Correspondence
 
-[Primal Pappachan](mailto:primal@uci.edu) <br>[Shufan Zhang](mailto:shufan.zhang@uwaterloo.ca) <br>[Xi He](mailto:xihe@uwaterloo.ca)  <br>[Sharad Mehrotra](mailto:sharad@ics.uci.edu) <br>
+[:mailbox_with_mail: Primal Pappachan](mailto:primal@uci.edu) [:scroll: Homepage](https://primalpappachan.com/) <br>
+[:mailbox_with_mail: Shufan Zhang](mailto:shufan.zhang@uwaterloo.ca) [:scroll: Homepage](https://cs.uwaterloo.ca/~s693zhan/) <br>
+[:mailbox_with_mail: Xi He](mailto:xihe@uwaterloo.ca) [:scroll: Homepage](https://cs.uwaterloo.ca/~xihe/) <br>
+[:mailbox_with_mail: Sharad Mehrotra](mailto:sharad@ics.uci.edu) [:scroll: Homepage](https://www.ics.uci.edu/~sharad/) <br>
 
 ## License
 
