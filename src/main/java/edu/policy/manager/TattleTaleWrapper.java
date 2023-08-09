@@ -48,6 +48,11 @@ public class TattleTaleWrapper {
             algo.setUsingAlgorithm("K-value Deniability");
             hideCells.addAll(((GreedyKSecrecy) algo).greedyHolisticKDen());
         }
+        else if (curSession.getAlgo().equals("full-modified")) {
+            algo = new GreedyPerfectSecrecyModified(curSession);
+            algo.setUsingAlgorithm("Full Modified");
+            hideCells.addAll(((GreedyPerfectSecrecyModified) algo).greedyHolisticPerfectDen());
+        }
 
         curSession.setHideCells(hideCells);
 
