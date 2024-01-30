@@ -48,10 +48,15 @@ dataSource.setUrl(String.format("jdbc:mysql://%s:%s/mysql", SERVER, PORT));
 ```
 **to**  
 ```
-dataSource.setUrl(String.format("jdbc:mysql://%s:%s/<YOURDATABASENAME>", SERVER, PORT));
+dataSource.setUrl(String.format("jdbc:mysql://%s:%s/<YOURDATABASENAME>", SERVER, PORT)); 
 ```
 </font>
 2.  Update corresponding database info (*username, password, server and port number*) in the `mysql.properties` file under `resources/credentials/` directory.
+<font color="red">
+
+**2024 Update**  
+**In addition you need to change the user privileges for the default account named in the mysql.properties file to have all privileges on the database value you set in step 1.**  
+</font>
 
 #### Step 2: Prepare Testcases
 
