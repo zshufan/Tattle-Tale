@@ -50,7 +50,7 @@ dataSource.setUrl(String.format("jdbc:mysql://%s:%s/mysql", SERVER, PORT));
 ```
 dataSource.setUrl(String.format("jdbc:mysql://%s:%s/<YOURDATABASENAME>", SERVER, PORT)); 
 ```
-**Alternatively you could create two databases named hospitaldb and taxdb to store the hospital and taxes tables respectively.**
+**Alternatively you could create two databases named hospitaldb and taxdb to store the hospital and taxes tables respectively.**  
 </font>
 2.  Update corresponding database info (*username, password, server and port number*) in the `mysql.properties` file under `resources/credentials/` directory.
 <font color="red">
